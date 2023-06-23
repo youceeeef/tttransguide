@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <title>Desktop - 1</title>
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter%3A400" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro%3A400" />
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/desktop-1.css') }}">
+
+  <style>
+    #map-container {
+      position: absolute;
+      width: 700px;
+      height: 400px;
+      left: 100px;
+      top: 30%;
+    }
+  </style>
+</head>
+<body>
+  <div class="desktop-1-RSd">
+    <div class="body-1fj">
+      <div class="up-Zz5">
+        <img class="transguide-1-Sny" src="{{ url_for('static', filename='assets/transguide-1.png') }}" />
+      </div>
+      <div class="auto-group-gsxz-t9B">
+        <p style="font-size: 4rem; position: relative; right: 200px; top: 20px; font-weight: bold; color: #000000;"></p>
+        <div id="map-container"></div>
+        <div class="group-1-upy">
+          
+          <div id="recommendation-container"></div>
+          <div id="inputContainer">
+            
+            <label type="text" id="predictedDuration" name="predictedDuration" />
+            
+          </div>
+          <div class="rectangle">
+            <h1>Temps Prédit: <span id="predict_time"></span></h1>
+          </div>
+          <div class="rectangle-4-Sa1">
+            <button class="pickup-button" id="pickup">Pickup</button>
+          </div>
+          <div class="rectangle-4-Sa1">
+            <button class="dropoff-button" id="dropoff">Dropoff</button>
+          </div>
+          <div class="rectangle-4-Sa1">
+            <a href="#" class="start-exploring-two" id="exploring" onclick="explore()">Explore</a>
+          </div>
+          <div class="rectangle-5"></div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+
+  <script>    
+    document.addEventListener("DOMContentLoaded", function() {
+      // Initialize the map
+      var map = L.map("map-container").setView([40.7141, -74.0052], 16);
+      
+      // Add a base layer using OpenStreetMap
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: 'Map data &copy; <a href="https://www.transguide.org/">TransGuide</a> contributors',
+        maxZoom: 18
+      }).addTo(map);
+
+      var pickupMarker;
+      var dropoffMarker;
+      var user_latitude, user_longitude, destination_latitude, destination_longitude;
+      // Add a marker on click for pickup
+      document.getElementById("pickup").addEventListener("click", function() {
+        if (pickupMarker) {
+          map.removeLayer(pickupMarker);
+        }
+        map.on('click', function(e) {
+          pickupMarker = L.marker(e.latlng).addTo(map);
+          user_latitude = e.latlng.lat;
+          user_longitude = e.latlng.lng;
+          //document.getElementById("pickup-latitude").textContent = user_latitude;
+         // document.getElementById("pickup-longitude").textContent = user_longitude;
+          console.log("Pickup Latitude: " + e.latlng.lat);
+          console.log("Pickup Longitude: " + e.latlng.lng);
+          map.off('click');
+        });
+      });
+
+      // Add a marker on click for dropoff
+      document.getElementById("dropoff").addEventListener("click", function() {
+        if (dropoffMarker) {
+          map.removeLayer(dropoffMarker);
+        }
+        map.on('click', function(e) {
+          dropoffMarker = L.marker(e.latlng).addTo(map);
+          destination_latitude = e.latlng.lat;
+          destination_longitude = e.latlng.lng;
+         
+          console.log("Dropoff Latitude: " + e.latlng.lat);
+          console.log("Dropoff Longitude: " + e.latlng.lng);
+          map.off('click');
+        });
+      });
+
+      // Add taxi markers
+      var taxiIcon = L.icon({
+        iconUrl: '{{ url_for('static', filename='taxi.png') }}',
+        iconSize: [32, 32],
+        iconAnchor: [16, 32]
+      });
+
+      var vendor1Locations = [
+        [40.7128, -74.0060],
+        [40.7142, -74.0086],
+        [40.7137, -74.0064],
+        [40.7125, -74.0042],
+        [40.7121, -74.0078],
+        [40.7155, -74.0054],
+        [40.7149, -74.0080],
+        [40.7116, -74.0039],
+        [40.7143, -74.0049],
+        [40.7147, -74.0067]
+      ];
+
+      var vendor2Locations = [
+        [40.7153, -74.0081],
+        [40.7161, -74.0072],
+        [40.7145, -74.0032],
+        [40.7138, -74.0087],
+        [40.7159, -74.0062],
+        [40.7140, -74.0043],
+        [40.7132, -74.0059],
+        [40.7160, -74.0085],
+        [40.7141, -74.0052],
+        [40.7162, -74.0078]
+      ];
+
+for (var i = 0; i < vendor1Locations.length; i++) {
+  var taxiMarker = L.marker(vendor1Locations[i], { icon: taxiIcon }).addTo(map);
+  taxiMarker.bindPopup("Fournisseur: Vendor 1"+"<br>latitude: "+vendor1Locations[i][0]+"<br>longitude: "+vendor1Locations[i][1]);
+}
+
+for (var i = 0; i < vendor2Locations.length; i++) {
+  var taxiMarker = L.marker(vendor2Locations[i], { icon: taxiIcon }).addTo(map);
+  taxiMarker.bindPopup("Fournisseur: Vendor 2"+"<br>latitude: "+vendor2Locations[i][0]+"<br>longitude: "+vendor2Locations[i][1]);
+}
+      var redTaxiIcon = L.icon({
+        iconUrl: '{{ url_for('static', filename='taxi_red.png') }}',
+        iconSize: [32, 32],
+        iconAnchor: [16, 32]
+      });
+      
+      var yellowTaxiIcon = L.icon({
+        iconUrl: '{{ url_for('static', filename='taxi_yellow.png') }}',
+        iconSize: [32, 32],
+        iconAnchor: [16, 32]
+      });
+      function calculateDistance(lat1, lon1, lat2, lon2) {
+        const earthRadius = 6371; // Rayon de la Terre en kilomètres
+      
+        // Convertir les coordonnées en radians
+        const lat1Rad = degToRad(lat1);
+        const lon1Rad = degToRad(lon1);
+        const lat2Rad = degToRad(lat2);
+        const lon2Rad = degToRad(lon2);
+      
+        // Calculer la différence des latitudes et longitudes
+        const latDiff = lat2Rad - lat1Rad;
+        const lonDiff = lon2Rad - lon1Rad;
+      
+        // Calculer la distance en utilisant la formule de haversine
+        const a =
+          Math.sin(latDiff / 2) ** 2 +
+          Math.cos(lat1Rad) * Math.cos(lat2Rad) * Math.sin(lonDiff / 2) ** 2;
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      
+        // Distance en kilomètres
+        const distance = earthRadius * c;
+      
+        return distance;
+      }
+      function compareDistance(locationA, locationB) {
+            var latitudeA = locationA[0];
+            var longitudeA = locationA[1];
+            var distanceA = calculateDistance(user_latitude, user_longitude, latitudeA, longitudeA);
+          
+            var latitudeB = locationB[0];
+            var longitudeB = locationB[1];
+            var distanceB = calculateDistance(user_latitude, user_longitude, latitudeB, longitudeB);
+          
+            return distanceA - distanceB;
+          }
+          
+      
+      function degToRad(degrees) {
+        return degrees * (Math.PI / 180);
+      }
+      
+      function displayRecommendedVendor(recommendedVendor,predictedDuration) {
+        var recommendationContainer = document.getElementById("recommendation-container");
+        recommendationContainer.innerHTML = "";
+        
+        document.getElementById("predict_time").textContent = predictedDuration;
+        if (recommendedVendor === 1) {
+          var recommendedVendorLocations = vendor1Locations;
+        } else if (recommendedVendor === 2) {
+          var recommendedVendorLocations = vendor2Locations;
+        }
+        
+        
+        for (var i = 0; i < recommendedVendorLocations.length; i++) {
+          var latitude = recommendedVendorLocations[i][0];
+          var longitude = recommendedVendorLocations[i][1];
+          var distance = calculateDistance(user_latitude, user_longitude, latitude, longitude);
+          // Trier les locations par ordre croissant de distance
+          
+          // Trier les taxis par distance
+          recommendedVendorLocations.sort(compareDistance);
+          
+            
+            
+        }
+        for (var i = 0; i < recommendedVendorLocations.length; i++) {
+          var latitude = recommendedVendorLocations[i][0];
+          var longitude = recommendedVendorLocations[i][1];
+          var recommendTaxi
+            if (i === 0) {
+              recommendTaxi=L.marker([latitude, longitude], { icon: redTaxiIcon }).addTo(map);
+              recommendTaxi.bindPopup("num 1"+"<br>Fournisseur: Vendor"+recommendedVendor+"<br>latitude: "+latitude+"<br>longitude: "+longitude);
+            } else if (i === 1 || i === 2) {
+              recommendTaxi=L.marker([latitude, longitude], { icon: yellowTaxiIcon }).addTo(map);
+              recommendTaxi.bindPopup("Fournisseur: Vendor"+recommendedVendor+"<br>latitude: "+latitude+"<br>longitude: "+longitude);
+            } 
+        }
+      }
+      
+      
+      
+      document.getElementById("exploring").addEventListener("click", explore);
+
+      function explore() {
+        
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/explore', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          var response = JSON.parse(xhr.responseText);
+          var recommendedVendor = response.recommendation;
+          var predictedDuration = response.predicted_duration;
+                displayRecommendedVendor(recommendedVendor,predictedDuration);
+              }
+        };
+          
+        xhr.send(JSON.stringify({
+          'user_latitude': user_latitude,
+          'user_longitude': user_longitude,
+          'destination_latitude': destination_latitude,
+          'destination_longitude': destination_longitude
+        }));
+      }
+      
+    });
+    
+    
+    
+  </script>
+</body>
+</html>

@@ -1,0 +1,173 @@
+
+html {
+  font-size: 62.5%;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+ul,
+li {
+  list-style: none;
+}
+
+input {
+  border: none;
+}
+
+body {
+  width: 100%;
+  max-width: 144rem;
+  margin: 0 auto;
+  font-size: 1.6rem;
+}
+
+.desktop-1-RSd {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  background-color: #ffffff;
+}
+
+.desktop-1-RSd .body-1fj {
+  box-sizing: border-box;
+  padding-bottom: 0.8rem;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+}
+
+.desktop-1-RSd .body-1fj .up-Zz5 {
+  margin-bottom: 2.6rem;
+  box-sizing: border-box;
+  padding: 4.2rem 1.5rem 2rem 1.5rem;
+  width: 100%;
+  background-color: #c0c0c0;
+  flex-shrink: 0;
+}
+
+.desktop-1-RSd .body-1fj .up-Zz5 .transguide-1-Sny {
+  width: 25rem;
+  height: 5.8rem;
+  object-fit: cover;
+  vertical-align: top;
+}
+
+.desktop-1-RSd .body-1fj .auto-group-gsxz-t9B {
+  margin: 0rem 5.844rem 0rem 4.4rem;
+  box-sizing: border-box;
+  padding-left: 30rem;
+  width: calc(100% - 45.844rem);
+  height: 60rem;
+  flex-shrink: 0;
+}
+
+.desktop-1-RSd .body-1fj .auto-group-gsxz-t9B .group-1-upy {
+  background-color:
+    #c0c0c0;
+  border-radius:
+    5rem;
+  height:
+    70%;
+  position:
+    relative;
+  width:
+    40%;
+    padding-right: 30%;
+    right: -50%;
+}
+
+.desktop-1-RSd .body-1fj .auto-group-gsxz-t9B .group-1-upy .rectangle-4-Sa1 {
+  width: 300px;
+  height: 60px;
+  position: relative;
+  left: 64px;
+  top: 300px;
+  
+  border-radius: 1.5rem;
+}
+
+.desktop-1-RSd .body-1fj .auto-group-gsxz-t9B .group-1-upy .start-exploring-two {
+  width: 300px;
+  height: 60px;
+  position: absolute;
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 60px;
+  color: #ffffff;
+  font-family: Inter, 'Source Sans Pro';
+  white-space: nowrap;
+  border-radius: 30px;
+  background-color: #9370db;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  bottom: 100px; /* Adjust the desired spacing from the bottom */
+}
+
+.desktop-1-RSd .body-1fj .auto-group-gsxz-t9B .group-1-upy .pickup-button{
+  width: 300px;
+  height: 60px;
+  position: absolute;
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 60px;
+  color: #ffffff;
+  font-family: Inter, 'Source Sans Pro';
+  white-space: nowrap;
+  border-radius: 30px;
+  background-color: #9370db;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  bottom: 160px;
+}
+
+.desktop-1-RSd .body-1fj .auto-group-gsxz-t9B .group-1-upy .dropoff-button {
+  width: 300px;
+  height: 60px;
+  position: absolute;
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 60px;
+  color: #ffffff;
+  font-family: Inter, 'Source Sans Pro';
+  white-space: nowrap;
+  border-radius: 30px;
+  background-color: #9370db;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  bottom: 130px; 
+}
+
+
+.desktop-1-RSd .body-1fj .auto-group-gsxz-t9B .group-1-upy .start-exploring-two:hover {
+  background-color: #7b57b5;
+}
+
+/*
+img.ride {
+  background: transparent;
+  width: 400px; /* Adjust the size according to your preference */
+ /* height: auto; /* Maintain the aspect ratio */
+ /* position: absolute;
+  left: 200px;
+  top: 70%;
+  transform: translateY(-50%);
+}*/
+
+
+
